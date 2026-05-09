@@ -42,5 +42,7 @@ The system operates on a relational model consisting of:
 4. **Run:** Move the project folder to htdocs and visit localhost/folder_name in your browser.
 
 **👥 Team Members**
+
 **Team Lead: MANASA N S**
+
 **Collaborator: VAISHNAVI KAVATAGI**
