@@ -1,12 +1,14 @@
 <?php
 $host = "localhost";
-$user = "root";
-$password = "";
-$dbname = "smart_fraud_db"; // Make sure this matches your DB name in XAMPP
+$username = "root"; // Default XAMPP username
+$password = "";     // Default XAMPP password is blank
+$dbname = "fraud_detection"; // Make sure to create this database in phpMyAdmin
 
-$conn = new mysqli($host, $user, $password, $dbname);
+// Create connection
+$conn = new mysqli($host, $username, $password, $dbname);
 
+// Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Database Connection Failed: " . $conn->connect_error);
 }
 ?>

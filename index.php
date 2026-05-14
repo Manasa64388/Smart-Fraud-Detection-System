@@ -1,16 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Transaction Portal</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Fraud Detection - Transaction Form</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background: #f4f7fc; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    .container { background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); width: 100%; max-width: 450px; color: #333; }
+    h2 { text-align: center; margin-bottom: 20px; color: #1e3a8a; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 6px; font-weight: bold; color: #333; }
+    input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+    input:focus, select:focus { border-color: #2563eb; outline: none; }
+    .btn { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+    .btn:hover { background: #1d4ed8; }
+    .note { margin-top: 15px; text-align: center; font-size: 13px; color: gray; }
+  </style>
 </head>
 <body>
-    <h2>💳 Process New Transaction</h2>
+
+  <div class="container">
+    <h2>🏦 Submit Transaction</h2>
     <form action="process.php" method="POST">
-        <input type="text" name="account_no" placeholder="Account Number" required><br><br>
-        <input type="number" name="amount" placeholder="Amount (₹)" required><br><br>
-        <input type="text" name="location" placeholder="Current City" required><br><br>
-        <button type="submit">Check Transaction</button>
+      <div class="form-group">
+        <label for="account_no">Account Number</label> 
+        <input id="account_no" name="account_no" type="text" placeholder="Enter Account Number (e.g. 12345)" required>
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Transaction Amount (₹)</label>
+        <input id="amount" name="amount" type="number" min="1" placeholder="Enter Amount" required>
+      </div>
+
+      <div class="form-group">
+        <label for="payment_method">Payment Method</label>
+        <select id="payment_method" name="payment_method" required>
+          <option value="" disabled selected>Select Method</option>
+          <option value="credit_card">Credit Card</option>
+          <option value="debit_card">Debit Card</option>
+          <option value="upi">UPI</option>
+          <option value="net_banking">Net Banking</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Current City (Location)</label>
+        <input id="location" name="location" type="text" placeholder="Enter Location" required>
+      </div>
+
+      <div class="form-group">
+        <label for="dateTime">Date & Time</label>
+        <input type="datetime-local" id="dateTime" name="transaction_time" required>
+      </div>
+
+      <button type="submit" class="btn">Check for Fraud</button>
+      <p class="note">Smart Fraud Detection System</p>
     </form>
+  </div>
+
+  <script>
+    let now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    document.getElementById("dateTime").value = now.toISOString().slice(0,16);
+  </script>
 </body>
 </html>
