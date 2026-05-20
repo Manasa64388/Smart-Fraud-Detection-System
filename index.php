@@ -1,31 +1,41 @@
+<?php 
+session_start(); 
+// Secure Guard: If a user isn't logged in, kick them back to sign-in
+if(!isset($_SESSION['user_name'])) { 
+    header("Location: signin.php"); 
+    exit(); 
+} 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Fraud Detection - Transaction Form</title>
+  <title>Transaction Form</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { background: #f4f7fc; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-    .container { background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); width: 100%; max-width: 450px; color: #333; }
-    h2 { text-align: center; margin-bottom: 20px; color: #1e3a8a; }
+    body { background: #f4f7fc; font-family: 'Segoe UI', Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 100%; max-width: 450px; }
+    h2 { color: #1e3a8a; text-align: center; margin-bottom: 20px; }
     .form-group { margin-bottom: 15px; }
     label { display: block; margin-bottom: 6px; font-weight: bold; color: #333; }
-    input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-    input:focus, select:focus { border-color: #2563eb; outline: none; }
-    .btn { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+    input { width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; box-sizing: border-box; }
+    input[readonly] { background-color: #e2e8f0; color: #64748b; cursor: not-allowed; }
+    .btn { background: #1e3a8a; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
     .btn:hover { background: #1d4ed8; }
-    .note { margin-top: 15px; text-align: center; font-size: 13px; color: gray; }
+    .note { text-align: center; color: #64748b; font-size: 12px; margin-top: 15px; }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <h2>🏦 Submit Transaction</h2>
+    <a href="logout.php" style="float: right; color: #ef4444; text-decoration: none; font-weight: bold; font-size: 14px;">Logout 🚪</a>
+    
+    <h2>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></h2>
+    
     <form action="process.php" method="POST">
+      
       <div class="form-group">
-        <label for="account_no">Account Number</label> 
-        <input id="account_no" name="account_no" type="text" placeholder="Enter Account Number (e.g. 12345)" required>
+        <label>Account Number</label>
+        <input name="account_no" type="text" value="<?php echo htmlspecialchars($_SESSION['account_no']); ?>" readonly>
       </div>
 
       <div class="form-group">
@@ -34,35 +44,13 @@
       </div>
 
       <div class="form-group">
-        <label for="payment_method">Payment Method</label>
-        <select id="payment_method" name="payment_method" required>
-          <option value="" disabled selected>Select Method</option>
-          <option value="credit_card">Credit Card</option>
-          <option value="debit_card">Debit Card</option>
-          <option value="upi">UPI</option>
-          <option value="net_banking">Net Banking</option>
-        </select>
-      </div>
-
-      <div class="form-group">
         <label for="location">Current City (Location)</label>
-        <input id="location" name="location" type="text" placeholder="Enter Location" required>
-      </div>
-
-      <div class="form-group">
-        <label for="dateTime">Date & Time</label>
-        <input type="datetime-local" id="dateTime" name="transaction_time" required>
+        <input id="location" name="location" type="text" placeholder="e.g. Bengaluru, Mumbai" required>
       </div>
 
       <button type="submit" class="btn">Check for Fraud</button>
-      <p class="note">Smart Fraud Detection System</p>
+      <p class="note">🛡️ Smart Fraud Detection System</p>
     </form>
   </div>
-
-  <script>
-    let now = new Date();
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    document.getElementById("dateTime").value = now.toISOString().slice(0,16);
-  </script>
 </body>
 </html>
