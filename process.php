@@ -32,33 +32,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_data = $res->fetch_assoc();
     $last_location = $user_data['last_location'] ?? '';
 
-    // Rule 2: Geolocation Mismatch Check (Skip if it's their very first transaction)
+    // Rule 2: Geolocation Mismatch Check
+    // If they have a history AND the new city doesn't match the old city -> FRAUD!
     if (!empty($last_location) && strtolower($last_location) !== strtolower($location)) {
         $is_fraud = 1;
-        $reason = "Location Mismatch (Last seen in " . htmlspecialchars($last_location) . ")";
+        $reason = "Location Mismatch (Last seen in " . htmlspecialchars($last_location) . ". Attempted in " . htmlspecialchars($location) . ")";
     }
 
     // --- DATABASE LAYER: ACID TRANSACTION BLOCK ---
-    // Turn off autocommit to start our manual transaction block
     $conn->begin_transaction();
 
     try {
-        // 1. Insert into transactions table
+        // 1. Insert the transaction into the log
         $ins_query = "INSERT INTO transactions (user_id, amount, location, is_fraud) VALUES (?, ?, ?, ?)";
         $ins_stmt = $conn->prepare($ins_query);
         $ins_stmt->bind_param("idsi", $user_id, $amount, $location, $is_fraud);
         $ins_stmt->execute();
 
-        // 2. Update the user's profile with their new state (last_location)
+        // 2. EXPLICITLY update the user's last_location so the next transaction knows where they are!
         $upd_query = "UPDATE users SET last_location = ? WHERE id = ?";
         $upd_stmt = $conn->prepare($upd_query);
         $upd_stmt->bind_param("si", $location, $user_id);
         $upd_stmt->execute();
 
-        // If BOTH operations executed without throwing errors, commit them to disk!
+        // Commit both queries safely
         $conn->commit();
     } catch (Exception $e) {
-        // If anything fails during the process, cancel everything to prevent data corruption!
         $conn->rollback();
         die("Critical Database Error. Transaction rolled back: " . $e->getMessage());
     }

@@ -1,48 +1,133 @@
 # 🛡️ Smart Fraud Detection System
 
-### 📌 Project Overview
-The **Smart Fraud Detection System** is a web-based DBMS project designed to monitor financial transactions in real-time. Unlike standard transaction logs, this system applies **rule-based logic** to identify and flag suspicious activities automatically, helping to prevent unauthorized access and financial loss.
+## 🏦 Secure Banking Transaction Monitoring Platform
+
+A web-based fraud detection system developed using **PHP**, **MySQL**, **HTML5**, **CSS3**, and **JavaScript** that monitors banking transactions and automatically flags suspicious activities using rule-based fraud detection.
 
 ---
 
-### 🚀 Key Features
-*   **🕒 Real-time Monitoring:** Tracks every transaction with precise timestamps and geolocation data.
-*   **🧠 Rule-Based Detection:**
-    *   **📍 Location Velocity Check:** Flags transactions if they occur in different cities within an impossible travel timeframe.
-    *   **💰 Threshold Monitoring:** Identifies transactions that deviate significantly from a user's typical spending pattern.
-*   **⚠️ Automated Alerting:** Sets an `is_fraud` flag to **1 (Suspicious)** for any transaction failing the logic checks.
-*   **🖥️ Admin Dashboard:** Provides a clear visual interface where flagged transactions are highlighted in **Red** for immediate review.
+## 📖 Project Overview
+
+The Smart Fraud Detection System is a DBMS-based banking application that allows customers to perform transactions while automatically detecting suspicious activities.
+
+The system records every transaction, applies fraud detection rules, stores transaction history in a MySQL database, and provides an Admin Dashboard for monitoring and analysis.
 
 ---
 
-### 💻 Tech Stack
-*   **Frontend:** ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=flat&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=flat&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=flat&logo=javascript&logoColor=black)
-*   **Backend:** ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=flat&logo=php&logoColor=white)
-*   **Database:** ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=flat&logo=mysql&logoColor=white)
-*   **Tools:** ![XAMPP](https://img.shields.io/badge/XAMPP-FB7A24?style=flat&logo=XAMPP&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=flat&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=flat&logo=github&logoColor=white)
+## 🎯 Project Objectives
+
+* Secure user registration and login
+* Record customer transactions
+* Detect potentially fraudulent transactions
+* Maintain transaction history
+* Provide administrative monitoring tools
+* Demonstrate practical DBMS concepts
 
 ---
 
-### 🗄️ Database Schema
-The system operates on a relational model consisting of:
+## ✨ Features
 
-1.  **`users` Table:** Stores user profiles, account numbers, and real-time balances.
-2.  **`transactions` Table:** Records transaction history, including amount, location, and the automated fraud status flag.
+### 👤 User Management
 
+* User Registration
+* Secure Login Authentication
+* Password Hashing
+* Session-Based Access Control
 
+### 💳 Transaction Processing
+
+* Customer Transaction Portal
+* Real-Time Transaction Submission
+* Transaction Logging
+* Location Tracking
+* Fraud Status Generation
+
+### 🚩 Fraud Detection Rules
+
+#### Rule 1: High Amount Detection
+
+Transactions greater than ₹20,000 are automatically flagged.
+
+#### Rule 2: Location Mismatch Detection
+
+If the customer's current transaction location differs from the previously recorded location, the transaction is marked as suspicious.
 
 ---
 
-### 🛠️ Installation & Setup
-1.  **Clone the Repository:**
-    ```bash
-    git clone [https://github.com/YOUR_USERNAME/Smart-Fraud-Detection.git](https://github.com/YOUR_USERNAME/Smart-Fraud-Detection.git)
-2. **Start XAMPP:** Turn on Apache and MySQL.
-3. **Import Database:** Import the provided .sql file via **phpMyAdmin.**
-4. **Run:** Move the project folder to htdocs and visit localhost/folder_name in your browser.
+## 📊 Admin Dashboard
 
-**👥 Team Members**
+* Total Transaction Volume
+* Total Transactions Processed
+* Fraud Count
+* Fraud Percentage
+* View All Transactions
+* Fraud Highlighting
 
-**Team Lead: MANASA N S**
+---
 
-**Collaborator: VAISHNAVI KAVATAGI**
+## 🗄️ Database Tables
+
+### Users
+
+| Field         | Description           |
+| ------------- | --------------------- |
+| id            | Primary Key           |
+| name          | Customer Name         |
+| account_no    | Unique Account Number |
+| password      | Hashed Password       |
+| role          | User Role             |
+| last_location | Last Known Location   |
+
+### Transactions
+
+| Field      | Description           |
+| ---------- | --------------------- |
+| id         | Primary Key           |
+| user_id    | Foreign Key           |
+| amount     | Transaction Amount    |
+| location   | Transaction Location  |
+| is_fraud   | Fraud Status          |
+| trans_time | Transaction Timestamp |
+
+---
+
+## 💻 Technology Stack
+
+* HTML5
+* CSS3
+* JavaScript
+* PHP
+* MySQL
+* XAMPP
+* GitHub
+
+---
+
+## 🎓 DBMS Concepts Used
+
+* Relational Database Design
+* Primary Keys
+* Foreign Keys
+* Joins
+* Aggregate Functions
+* Transactions
+* Session Management
+* Authentication
+
+---
+
+## 👨‍💻 Team Members
+
+### Team Lead
+
+MANASA N S
+
+### Collaborator
+
+VAISHNAVI KAVATAGI
+
+---
+
+### 🛡️ Secure • Reliable • Intelligent
+
+DBMS Mini Project

@@ -24,6 +24,21 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- ==========================================
+--      DATABASE TRIGGER
+-- ==========================================
+-- This trigger automatically updates the user's last_location 
+-- immediately after a new transaction is inserted.
+DELIMITER //
+CREATE TRIGGER update_location_after_transaction
+AFTER INSERT ON transactions
+FOR EACH ROW
+BEGIN
+    UPDATE users SET last_location = NEW.location WHERE id = NEW.user_id;
+END;
+//
+DELIMITER ;
+
 -- Insert sample admin user (password: admin123)
 INSERT INTO users (name, account_no, password, role) 
 VALUES ('Admin User', '999', '$2y$10$vIHl3dF5X0SHU5jPB7gUBeyVv7oL3M7HsYp1NR7hPwhfJ5oM0PNY2', 'admin');

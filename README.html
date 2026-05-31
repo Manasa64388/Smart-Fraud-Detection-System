@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Fraud Detection System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    color:#333;
+    line-height:1.8;
+}
+
+/* =====================
+   NAVIGATION BAR
+===================== */
+
+nav{
+    position:sticky;
+    top:0;
+    width:100%;
+    background:#0f172a;
+    z-index:1000;
+    box-shadow:0 2px 10px rgba(0,0,0,0.2);
+}
+
+nav ul{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    list-style:none;
+}
+
+nav ul li{
+    margin:15px;
+}
+
+nav ul li a{
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+nav ul li a:hover{
+    color:#60a5fa;
+}
+
+/* =====================
+   HERO SECTION
+===================== */
+
+.hero{
+    min-height:100vh;
+    background:linear-gradient(
+    135deg,
+    #1e3a8a,
+    #2563eb,
+    #3b82f6
+    );
+
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    padding:50px;
+}
+
+.hero-content{
+    max-width:1000px;
+}
+
+.hero h1{
+    font-size:4rem;
+    margin-bottom:20px;
+}
+
+.hero h2{
+    font-size:2rem;
+    font-weight:400;
+    margin-bottom:30px;
+}
+
+.hero p{
+    font-size:1.2rem;
+    margin-bottom:40px;
+}
+
+.btn{
+    display:inline-block;
+
+    padding:15px 35px;
+
+    background:white;
+    color:#2563eb;
+
+    text-decoration:none;
+    font-weight:bold;
+
+    border-radius:50px;
+
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* =====================
+   COMMON SECTION
+===================== */
+
+.code-block{
+    background:#1e1e1e;
+    color:white;
+    padding:20px;
+    border-radius:10px;
+    overflow:auto;
+    margin-top:20px;
+}
+
+.code-block pre{
+    margin:0;
+    font-family:Consolas, monospace;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding:80px 0;
+}
+
+.section{
+    background:white;
+
+    margin-bottom:30px;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.section h2{
+    color:#1e3a8a;
+    margin-bottom:20px;
+    border-bottom:3px solid #2563eb;
+    padding-bottom:10px;
+}
+
+.section p{
+    text-align:justify;
+}
+
+/* =====================
+   CARDS
+===================== */
+
+.grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:20px;
+}
+
+.card{
+    background:#eef4ff;
+    padding:25px;
+    border-radius:12px;
+    border-left:5px solid #2563eb;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h3{
+    color:#1e3a8a;
+    margin-bottom:10px;
+}
+
+/* =====================
+   TABLES
+===================== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+table th{
+    background:#1e3a8a;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    border:1px solid #ddd;
+    padding:12px;
+}
+
+/* =====================
+   IMAGE PLACEHOLDERS
+===================== */
+
+.placeholder{
+    border:3px dashed #999;
+    background:#fafafa;
+    padding:70px;
+    text-align:center;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+/* =====================
+   FOOTER
+===================== */
+
+footer{
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:40px;
+}
+
+footer h2{
+    margin-bottom:10px;
+}
+
+/* =====================
+   RESPONSIVE
+===================== */
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:2.5rem;
+}
+
+.hero h2{
+    font-size:1.4rem;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =====================
+     NAVIGATION
+===================== -->
+
+<nav>
+
+<ul>
+
+<li><a href="#intro">Introduction</a></li>
+
+<li><a href="#problem">Problem</a></li>
+
+<li><a href="#existing">Existing System</a></li>
+
+<li><a href="#proposed">Proposed System</a></li>
+
+<li><a href="#features">Features</a></li>
+
+<li><a href="#modules">Modules</a></li>
+
+<li><a href="#database">Database</a></li>
+
+<li><a href="#security">Security</a></li>
+
+<li><a href="#future">Future Scope</a></li>
+
+</ul>
+
+</nav>
+
+<!-- =====================
+     HERO SECTION
+===================== -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>🛡️ Smart Fraud Detection System</h1>
+
+<h2>
+Secure Banking Transaction Monitoring Platform
+</h2>
+
+<p>
+
+A DBMS-based web application developed using
+PHP, MySQL, HTML5, CSS3 and JavaScript that
+records banking transactions, detects suspicious
+activities and provides real-time fraud monitoring
+through an Admin Dashboard.
+
+</p>
+
+<a href="#intro" class="btn">
+Explore Project
+</a>
+
+</div>
+
+</section>
+
+<div class="container">
+    <!-- =====================
+     INTRODUCTION
+===================== -->
+
+<section id="intro" class="section">
+
+<h2>📖 Introduction</h2>
+
+<p>
+
+The rapid growth of digital banking and online payment systems has
+made financial transactions more convenient than ever before.
+However, this convenience has also increased the risk of fraudulent
+activities. Banks and financial institutions process thousands of
+transactions every day, making manual fraud detection difficult,
+time-consuming and inefficient.
+
+</p>
+
+<br>
+
+<p>
+
+The Smart Fraud Detection System is a web-based application designed
+to monitor banking transactions and automatically identify suspicious
+activities using predefined fraud detection rules. The system
+provides secure user authentication, transaction recording,
+fraud analysis, database management and administrative monitoring
+through an integrated dashboard.
+
+</p>
+
+<br>
+
+<p>
+
+This project demonstrates the practical implementation of Database
+Management System (DBMS) concepts including relational database
+design, primary keys, foreign keys, transactions, triggers,
+authentication and data security techniques.
+
+</p>
+
+</section>
+
+<!-- =====================
+     PROBLEM STATEMENT
+===================== -->
+
+<section id="problem" class="section">
+
+<h2>❗ Problem Statement</h2>
+
+<p>
+
+Financial fraud is one of the major challenges faced by banking
+institutions. Traditional fraud detection approaches often depend
+on manual monitoring and investigation, which can delay the
+identification of suspicious transactions.
+
+</p>
+
+<br>
+
+<p>
+
+Fraudulent activities such as unusually large transactions or
+transactions from unexpected locations can result in significant
+financial losses if not detected quickly. Therefore, an automated
+system is required to monitor transactions in real time and flag
+potentially fraudulent activities for further investigation.
+
+</p>
+
+</section>
+
+<!-- =====================
+     EXISTING SYSTEM
+===================== -->
+
+<section id="existing" class="section">
+
+<h2>🔍 Existing System</h2>
+
+<p>
+
+Traditional banking systems often rely on manual monitoring and
+verification of transactions. Fraud detection usually occurs after
+the transaction has already been processed, which increases the
+risk of financial loss.
+
+</p>
+
+<br>
+
+<h3>Limitations of Existing System</h3>
+
+<br>
+
+<ul>
+
+<li>Manual verification process.</li>
+
+<li>Time-consuming transaction monitoring.</li>
+
+<li>Delayed fraud detection.</li>
+
+<li>High dependence on human intervention.</li>
+
+<li>Possibility of overlooking suspicious activities.</li>
+
+<li>Limited real-time monitoring capabilities.</li>
+
+</ul>
+
+</section>
+
+<!-- =====================
+     PROPOSED SYSTEM
+===================== -->
+
+<section id="proposed" class="section">
+
+<h2>🚀 Proposed System</h2>
+
+<p>
+
+The Smart Fraud Detection System introduces an automated approach
+for monitoring transactions and identifying suspicious activities.
+The system records customer transactions, applies fraud detection
+rules, stores transaction data in a MySQL database and provides
+real-time monitoring through an administrative dashboard.
+
+</p>
+
+<br>
+
+<h3>Advantages of Proposed System</h3>
+
+<br>
+
+<ul>
+
+<li>Automated fraud detection.</li>
+
+<li>Real-time transaction monitoring.</li>
+
+<li>Secure user authentication.</li>
+
+<li>Transaction history maintenance.</li>
+
+<li>Administrative analytics dashboard.</li>
+
+<li>Reduced human intervention.</li>
+
+<li>Improved fraud visibility.</li>
+
+</ul>
+
+</section>
+
+<!-- =====================
+     OBJECTIVES
+===================== -->
+
+<section class="section">
+
+<h2>🎯 Project Objectives</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Secure Authentication</h3>
+
+<p>
+
+Provide secure user registration and login functionality using
+password hashing and session management.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Transaction Monitoring</h3>
+
+<p>
+
+Record and monitor customer transactions in real time.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Fraud Detection</h3>
+
+<p>
+
+Automatically identify suspicious transactions using
+predefined fraud detection rules.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Data Management</h3>
+
+<p>
+
+Store and manage transaction history efficiently using
+MySQL database.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Administrative Control</h3>
+
+<p>
+
+Provide monitoring and reporting tools through
+an Admin Dashboard.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>DBMS Demonstration</h3>
+
+<p>
+
+Demonstrate practical implementation of DBMS concepts.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================
+     FEATURES
+===================== -->
+
+<section id="features" class="section">
+
+<h2>✨ Key Features</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>👤 User Registration</h3>
+
+<p>
+
+Allows new users to create accounts with password validation
+and secure credential storage.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>🔐 Secure Login</h3>
+
+<p>
+
+Provides authenticated access for both customers and
+administrators.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>💳 Transaction Processing</h3>
+
+<p>
+
+Accepts transaction amount and location information
+from users.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>🚩 Fraud Detection</h3>
+
+<p>
+
+Automatically evaluates transactions using fraud
+detection rules.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>📊 Admin Dashboard</h3>
+
+<p>
+
+Displays transaction statistics, fraud counts,
+fraud percentages and customer information.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>🗄️ Database Integration</h3>
+
+<p>
+
+Stores all user and transaction records securely
+in MySQL database.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================
+     SYSTEM ARCHITECTURE
+===================== -->
+
+<section class="section">
+
+<h2>🏗️ System Architecture</h2>
+
+<div class="placeholder">
+
+<h3>System Flow</h3>
+
+<br>
+
+User Registration
+
+<br><br>
+
+⬇
+
+<br><br>
+
+User Login
+
+<br><br>
+
+⬇
+
+<br><br>
+
+Transaction Submission
+
+<br><br>
+
+⬇
+
+<br><br>
+
+Fraud Detection Engine
+
+<br><br>
+
+⬇
+
+<br><br>
+
+MySQL Database
+
+<br><br>
+
+⬇
+
+<br><br>
+
+Admin Dashboard
+
+</div>
+
+<br>
+
+<p>
+
+The system follows a centralized architecture where user data
+and transaction records are stored in a MySQL database.
+The fraud detection engine evaluates each transaction before
+it is committed to the database. Administrative users can
+access analytics and reports through the dashboard.
+
+</p>
+
+</section>
+<!-- =====================
+     MODULE DESCRIPTION
+===================== -->
+
+<section id="modules" class="section">
+
+<h2>📦 Module Description</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>🏠 Home Module</h3>
+
+<p>
+
+The Home Module acts as the landing page of the system.
+It provides navigation links for Customer Portal,
+Admin Portal, Login and Registration.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>📝 Registration Module</h3>
+
+<p>
+
+Allows new customers to create accounts by providing
+their name, account number and password.
+Passwords are securely stored using hashing techniques.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>🔐 Login Module</h3>
+
+<p>
+
+Authenticates users and administrators.
+After successful authentication, the system creates
+a session and redirects users to the appropriate page.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>💳 Transaction Module</h3>
+
+<p>
+
+Accepts transaction details such as transaction amount
+and current location from customers.
+Each transaction is evaluated before being stored.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>🚩 Fraud Detection Module</h3>
+
+<p>
+
+Applies fraud detection rules to determine whether
+a transaction is suspicious.
+Transactions are marked as either Safe or Fraudulent.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>📊 Admin Dashboard Module</h3>
+
+<p>
+
+Provides transaction analytics, fraud reports,
+customer details and monitoring information
+for administrators.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================
+     FRAUD DETECTION
+===================== -->
+
+<section class="section">
+
+<h2>🚩 Fraud Detection Rules</h2>
+
+<p>
+
+The Smart Fraud Detection System uses a rule-based
+approach for detecting suspicious activities.
+Each transaction is evaluated against predefined rules.
+
+</p>
+
+<br>
+
+<table>
+
+<tr>
+<th>Rule No.</th>
+<th>Fraud Rule</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>High Amount Detection</td>
+<td>
+Transactions greater than ₹20,000 are automatically
+flagged as suspicious.
+</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Location Mismatch Detection</td>
+<td>
+If the current transaction location differs from
+the user's previous location, the transaction is
+marked as suspicious.
+</td>
+</tr>
+
+</table>
+
+<br>
+
+<h3>Example Scenarios</h3>
+
+<br>
+
+<table>
+
+<tr>
+<th>Transaction Amount</th>
+<th>Location</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>₹5,000</td>
+<td>Bengaluru</td>
+<td>Safe</td>
+</tr>
+
+<tr>
+<td>₹25,000</td>
+<td>Bengaluru</td>
+<td>Fraud Detected</td>
+</tr>
+
+<tr>
+<td>₹8,000</td>
+<td>Mumbai (Changed)</td>
+<td>Fraud Detected</td>
+</tr>
+
+</table>
+
+</section>
+
+<!-- =====================
+     DATABASE DESIGN
+===================== -->
+
+<section id="database" class="section">
+
+<h2>🗄️ Database Design</h2>
+
+<p>
+
+The system uses MySQL as the backend database.
+The database consists of two main tables:
+Users and Transactions.
+
+</p>
+
+<br>
+
+<h3>Users Table</h3>
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>id</td>
+<td>INT</td>
+<td>Primary Key</td>
+</tr>
+
+<tr>
+<td>name</td>
+<td>VARCHAR</td>
+<td>Customer Name</td>
+</tr>
+
+<tr>
+<td>account_no</td>
+<td>VARCHAR</td>
+<td>Unique Account Number</td>
+</tr>
+
+<tr>
+<td>password</td>
+<td>VARCHAR</td>
+<td>Hashed Password</td>
+</tr>
+
+<tr>
+<td>role</td>
+<td>VARCHAR</td>
+<td>User Role</td>
+</tr>
+
+<tr>
+<td>last_location</td>
+<td>VARCHAR</td>
+<td>Last Transaction Location</td>
+</tr>
+
+</table>
+
+<br><br>
+
+<h3>Transactions Table</h3>
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>id</td>
+<td>INT</td>
+<td>Primary Key</td>
+</tr>
+
+<tr>
+<td>user_id</td>
+<td>INT</td>
+<td>Foreign Key</td>
+</tr>
+
+<tr>
+<td>amount</td>
+<td>DECIMAL</td>
+<td>Transaction Amount</td>
+</tr>
+
+<tr>
+<td>location</td>
+<td>VARCHAR</td>
+<td>Transaction Location</td>
+</tr>
+
+<tr>
+<td>is_fraud</td>
+<td>TINYINT</td>
+<td>Fraud Status</td>
+</tr>
+
+<tr>
+<td>trans_time</td>
+<td>TIMESTAMP</td>
+<td>Transaction Timestamp</td>
+</tr>
+
+</table>
+
+</section>
+
+<!-- =====================
+     ER DIAGRAM
+===================== -->
+
+<section class="section">
+
+<h2>📌 Entity Relationship (ER) Diagram</h2>
+
+<img src="images/ER diagram.jpeg"
+     alt="ER Diagram"
+     width="50%"
+     height="50%"
+     style="max-width:900px;display:block;margin:auto;">
+
+<h3>Users</h3>
+
+<br>
+
+1----N
+
+<br><br>
+
+<h3>Transactions</h3>
+
+<br>
+
+Relationship:
+
+One User can perform Multiple Transactions
+
+</div>
+
+<br>
+
+<p>
+
+The Users table and Transactions table are connected
+through a One-to-Many relationship using the user_id
+foreign key.
+
+</p>
+
+</section>
+
+<!-- =====================
+     DATABASE TRIGGER
+===================== -->
+
+<section class="section">
+
+<h2>⚙️ Database Trigger</h2>
+
+<p>
+
+The project implements a database trigger to
+automatically update the user's last transaction
+location whenever a new transaction is inserted.
+
+</p>
+
+<br>
+
+<<h3>Trigger Implementation</h3>
+
+<div class="code-block">
+<pre>
+CREATE TRIGGER update_location_after_transaction
+AFTER INSERT ON transactions
+FOR EACH ROW
+BEGIN
+    UPDATE users
+    SET last_location = NEW.location
+    WHERE id = NEW.user_id;
+END;
+</pre>
+</div>
+
+<p>
+This trigger automatically updates the user's
+last known location whenever a new transaction
+is inserted into the transactions table.
+</p>
+
+</div>
+
+<br>
+
+<p>
+
+Using triggers improves automation and ensures
+database consistency without requiring additional
+application logic.
+
+</p>
+
+</section>
+
+<!-- =====================
+     ADMIN DASHBOARD
+===================== -->
+
+<section class="section">
+
+<h2>📊 Admin Dashboard Analytics</h2>
+
+<p>
+
+The Admin Dashboard provides a centralized view of
+all customer transactions and fraud detection results.
+
+</p>
+
+<br>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Total Transactions</h3>
+
+<p>
+Displays total number of processed transactions.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Total Transaction Volume</h3>
+
+<p>
+Displays cumulative transaction amount.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Fraud Count</h3>
+
+<p>
+Displays total number of suspicious transactions.
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Fraud Percentage</h3>
+
+<p>
+Displays percentage of fraudulent transactions.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================
+     SECURITY FEATURES
+===================== -->
+
+<section id="security" class="section">
+
+<h2>🔒 Security Features</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Password Hashing</h3>
+
+<p>
+
+Passwords are stored securely using PHP's
+password_hash() function.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Password Verification</h3>
+
+<p>
+
+User passwords are verified using
+password_verify().
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Prepared Statements</h3>
+
+<p>
+
+Prepared statements are used to prevent
+SQL Injection attacks.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Session Management</h3>
+
+<p>
+
+PHP sessions are used to control access
+to protected pages.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Role-Based Access</h3>
+
+<p>
+
+Separate access control is maintained
+for customers and administrators.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Database Transactions</h3>
+
+<p>
+
+Commit and rollback operations ensure
+data consistency during transaction processing.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+<!-- =====================
+     TECHNOLOGY STACK
+===================== -->
+
+<section class="section">
+
+<h2>💻 Technology Stack</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Frontend</h3>
+<p>
+HTML5<br>
+CSS3<br>
+JavaScript
+</p>
+</div>
+
+<div class="card">
+<h3>Backend</h3>
+<p>
+PHP
+</p>
+</div>
+
+<div class="card">
+<h3>Database</h3>
+<p>
+MySQL
+</p>
+</div>
+
+<div class="card">
+<h3>Development Tools</h3>
+<p>
+XAMPP<br>
+VS Code<br>
+GitHub
+</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================
+     DBMS CONCEPTS
+===================== -->
+
+<section class="section">
+
+<h2>📚 DBMS Concepts Implemented</h2>
+
+<p>
+
+This project demonstrates several important
+Database Management System concepts through
+practical implementation.
+
+</p>
+
+<br>
+
+<table>
+
+<tr>
+<th>Concept</th>
+<th>Implementation</th>
+</tr>
+
+<tr>
+<td>Primary Key</td>
+<td>Unique identification of records using id field.</td>
+</tr>
+
+<tr>
+<td>Foreign Key</td>
+<td>Transactions linked to users through user_id.</td>
+</tr>
+
+<tr>
+<td>Joins</td>
+<td>Used in Admin Dashboard to display combined information.</td>
+</tr>
+
+<tr>
+<td>Aggregate Functions</td>
+<td>COUNT(), SUM() used for analytics.</td>
+</tr>
+
+<tr>
+<td>Transactions</td>
+<td>Commit and Rollback operations.</td>
+</tr>
+
+<tr>
+<td>Triggers</td>
+<td>Automatic location update after transaction insertion.</td>
+</tr>
+
+<tr>
+<td>Authentication</td>
+<td>User login verification and role management.</td>
+</tr>
+
+<tr>
+<td>Session Management</td>
+<td>Access control and user session handling.</td>
+</tr>
+
+</table>
+
+</section>
+
+<!-- =====================
+     SCREENSHOTS
+===================== -->
+
+<section class="section">
+
+<h2>📸 Project Screenshots</h2>
+
+<br>
+
+<h3>🏠 Home Page</h3>
+
+<img src="images/1home.png" alt="Home Page" width="100%">
+
+<br>
+
+<h3>📝 Registration Page</h3>
+
+<img src="images/3signup.png" alt="Registration Page" width="100%">
+
+<br>
+
+<h3>🔐 Login Page</h3>
+
+<img src="images/2signin.png" alt="Login Page" width="100%">
+
+<br>
+
+<h3>💳 Transaction Page</h3>
+
+<img src="images/4transaction1.png" alt="Transaction Page" width="100%">
+
+<br>
+
+<h3>🚩 Fraud Detection Result</h3>
+
+<img src="images/5fraud detected.png" alt="Fraud Result" width="100%">
+
+<br>
+
+<h3>💳 Transaction Page</h3>
+
+<img src="images/6transaction2.png" alt="Transaction Page" width="100%">
+
+<br>
+
+<h3>✅ Successful Transaction</h3>
+
+<img src="images/7transuccess.png" alt="Success" width="100%">
+
+<br>
+
+<h3>📊 Admin Dashboard</h3>
+
+<img src="images/8Admin.png" alt="Admin Dashboard" width="100%">
+<img src="images/9Admin1.png" alt="Admin Dashboard" width="100%">
+</section>
+
+<!-- =====================
+     FUTURE ENHANCEMENTS
+===================== -->
+
+<section id="future" class="section">
+
+<h2>🔮 Future Enhancements</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Machine Learning</h3>
+
+<p>
+
+Implement machine learning algorithms
+for advanced fraud prediction.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>OTP Verification</h3>
+
+<p>
+
+Add OTP authentication before
+transaction approval.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Email Alerts</h3>
+
+<p>
+
+Send email notifications when
+fraudulent activity is detected.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>SMS Notifications</h3>
+
+<p>
+
+Provide real-time SMS alerts
+for suspicious transactions.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Geo-Location Tracking</h3>
+
+<p>
+
+Use GPS-based location monitoring
+for better fraud detection.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Risk Scoring</h3>
+
+<p>
+
+Assign fraud risk scores
+to each transaction.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================
+     CONCLUSION
+===================== -->
+
+<section class="section">
+
+<h2>✅ Conclusion</h2>
+
+<p>
+
+The Smart Fraud Detection System successfully
+demonstrates the practical application of
+Database Management System concepts in the
+banking domain.
+
+</p>
+
+<br>
+
+<p>
+
+The project provides secure user authentication,
+transaction processing, fraud detection,
+data management and administrative monitoring
+through an integrated web-based platform.
+
+</p>
+
+<br>
+
+<p>
+
+By implementing fraud detection rules,
+database triggers, transactions and security
+mechanisms, the system offers a reliable
+foundation for transaction monitoring and
+fraud prevention.
+
+</p>
+
+</section>
+
+<!-- =====================
+     TEAM MEMBERS
+===================== -->
+
+<section class="section">
+
+<h2>👨‍💻 Team Members</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Team Lead</h3>
+
+<p>
+
+MANASA N S
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Collaborator</h3>
+
+<p>
+
+VAISHNAVI KAVATAGI
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================
+     REFERENCES
+===================== -->
+
+<section class="section">
+
+<h2>📖 References</h2>
+
+<ul>
+
+<li>PHP Official Documentation</li>
+
+<li>MySQL Documentation</li>
+
+<li>HTML5 & CSS3 Documentation</li>
+
+<li>JavaScript Documentation</li>
+
+<li>Database Management System Concepts</li>
+
+<li>XAMPP Documentation</li>
+
+<li>GitHub Documentation</li>
+
+</ul>
+
+</section>
+
+</div>
+
+<!-- =====================
+     FOOTER
+===================== -->
+
+<footer>
+
+<h2>🛡️ Smart Fraud Detection System</h2>
+
+<p>
+
+Secure • Reliable • Intelligent
+
+</p>
+
+<br>
+
+<p>
+
+DBMS Mini Project
+
+</p>
+
+<br>
+
+<p>
+
+Developed Using PHP, MySQL, HTML, CSS and JavaScript
+
+</p>
+
+</footer>
+
+</body>
+</html>
