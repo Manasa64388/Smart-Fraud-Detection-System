@@ -24,6 +24,35 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- FRAUD LOGS TABLE
+CREATE TABLE fraud_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    transaction_id INT NOT NULL,
+    fraud_reason VARCHAR(255) NOT NULL,
+    detected_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (transaction_id)
+    REFERENCES transactions(id)
+);
+
+-- TRANSACTION HISTORY TABLE
+CREATE TABLE transaction_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    transaction_id INT NOT NULL,
+    user_id INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    location VARCHAR(100) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (transaction_id)
+    REFERENCES transactions(id),
+
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+);
+
+
 -- ==========================================
 --      DATABASE TRIGGER
 -- ==========================================

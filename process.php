@@ -44,10 +44,87 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // 1. Insert the transaction into the log
-        $ins_query = "INSERT INTO transactions (user_id, amount, location, is_fraud) VALUES (?, ?, ?, ?)";
-        $ins_stmt = $conn->prepare($ins_query);
-        $ins_stmt->bind_param("idsi", $user_id, $amount, $location, $is_fraud);
-        $ins_stmt->execute();
+       $ins_query = "INSERT INTO transactions (user_id, amount, location, is_fraud)
+              VALUES (?, ?, ?, ?)";
+
+$ins_stmt = $conn->prepare($ins_query);
+
+$ins_stmt->bind_param(
+    "idsi",
+    $user_id,
+    $amount,
+    $location,
+    $is_fraud
+);
+
+$ins_stmt->execute();
+
+/* ==================================
+   GET LAST INSERTED TRANSACTION ID
+================================== */
+
+$transaction_id = $conn->insert_id;
+
+
+/* ==================================
+   INSERT INTO FRAUD_LOGS TABLE
+================================== */
+
+if ($is_fraud == 1) {
+
+    $fraud_query = "
+        INSERT INTO fraud_logs
+        (transaction_id, fraud_reason)
+        VALUES (?, ?)
+    ";
+
+    $fraud_stmt = $conn->prepare($fraud_query);
+
+    $fraud_stmt->bind_param(
+        "is",
+        $transaction_id,
+        $reason
+    );
+
+    $fraud_stmt->execute();
+}
+
+
+/* ==================================
+   INSERT INTO TRANSACTION_HISTORY
+================================== */
+
+$status = ($is_fraud == 1)
+            ? 'Fraud'
+            : 'Safe';
+
+$history_query = "
+    INSERT INTO transaction_history
+    (
+        transaction_id,
+        user_id,
+        amount,
+        location,
+        status
+    )
+    VALUES
+    (
+        ?, ?, ?, ?, ?
+    )
+";
+
+$history_stmt = $conn->prepare($history_query);
+
+$history_stmt->bind_param(
+    "iidss",
+    $transaction_id,
+    $user_id,
+    $amount,
+    $location,
+    $status
+);
+
+$history_stmt->execute();
 
         // 2. EXPLICITLY update the user's last_location so the next transaction knows where they are!
         $upd_query = "UPDATE users SET last_location = ? WHERE id = ?";
