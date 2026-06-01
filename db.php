@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 $host = "localhost";
 $username = "root"; // Default XAMPP username
@@ -13,4 +14,19 @@ if ($conn->connect_error) {
 }
 $conn->set_charset("utf8");
 
+=======
+<?php
+$host = "localhost";
+$username = "root"; // Default XAMPP username
+$password = "";     // Default XAMPP password is blank
+$dbname = "fraud_detection"; // Make sure to create this database in phpMyAdmin
+
+// Create connection
+$conn = new mysqli($host, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Database Connection Failed: " . $conn->connect_error);
+}
+>>>>>>> 387c73c66cf8311e8491754526278b8dbc3fad42
 ?>
