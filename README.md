@@ -123,6 +123,7 @@ BEGIN
 END;
 //
 DELIMITER ;
+```
 
 ## 💻 Technology Stack
 
