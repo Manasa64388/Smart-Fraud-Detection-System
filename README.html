@@ -273,10 +273,6 @@ footer h2{
 
 <body>
 
-<!-- =====================
-     NAVIGATION
-===================== -->
-
 <nav>
 
 <ul>
@@ -302,10 +298,6 @@ footer h2{
 </ul>
 
 </nav>
-
-<!-- =====================
-     HERO SECTION
-===================== -->
 
 <section class="hero">
 
@@ -336,11 +328,7 @@ Explore Project
 </section>
 
 <div class="container">
-    <!-- =====================
-     INTRODUCTION
-===================== -->
-
-<section id="intro" class="section">
+    <section id="intro" class="section">
 
 <h2>📖 Introduction</h2>
 
@@ -381,10 +369,6 @@ authentication and data security techniques.
 
 </section>
 
-<!-- =====================
-     PROBLEM STATEMENT
-===================== -->
-
 <section id="problem" class="section">
 
 <h2>❗ Problem Statement</h2>
@@ -411,10 +395,6 @@ potentially fraudulent activities for further investigation.
 </p>
 
 </section>
-
-<!-- =====================
-     EXISTING SYSTEM
-===================== -->
 
 <section id="existing" class="section">
 
@@ -452,10 +432,6 @@ risk of financial loss.
 </ul>
 
 </section>
-
-<!-- =====================
-     PROPOSED SYSTEM
-===================== -->
 
 <section id="proposed" class="section">
 
@@ -496,10 +472,6 @@ real-time monitoring through an administrative dashboard.
 </ul>
 
 </section>
-
-<!-- =====================
-     OBJECTIVES
-===================== -->
 
 <section class="section">
 
@@ -586,10 +558,6 @@ Demonstrate practical implementation of DBMS concepts.
 </div>
 
 </section>
-
-<!-- =====================
-     FEATURES
-===================== -->
 
 <section id="features" class="section">
 
@@ -679,10 +647,6 @@ in MySQL database.
 
 </section>
 
-<!-- =====================
-     SYSTEM ARCHITECTURE
-===================== -->
-
 <section class="section">
 
 <h2>🏗️ System Architecture</h2>
@@ -750,10 +714,6 @@ access analytics and reports through the dashboard.
 </p>
 
 </section>
-<!-- =====================
-     MODULE DESCRIPTION
-===================== -->
-
 <section id="modules" class="section">
 
 <h2>📦 Module Description</h2>
@@ -848,10 +808,6 @@ for administrators.
 
 </section>
 
-<!-- =====================
-     FRAUD DETECTION
-===================== -->
-
 <section class="section">
 
 <h2>🚩 Fraud Detection Rules</h2>
@@ -931,10 +887,6 @@ marked as suspicious.
 
 </section>
 
-<!-- =====================
-     DATABASE DESIGN
-===================== -->
-
 <section id="database" class="section">
 
 <h2>🗄️ Database Design</h2>
@@ -942,8 +894,8 @@ marked as suspicious.
 <p>
 
 The system uses MySQL as the backend database.
-The database consists of two main tables:
-Users and Transactions.
+The database consists of four main tables:
+Users, Transactions, Fraud Logs, and Transaction History.
 
 </p>
 
@@ -962,37 +914,43 @@ Users and Transactions.
 <tr>
 <td>id</td>
 <td>INT</td>
-<td>Primary Key</td>
+<td>Primary Key (AUTO_INCREMENT)</td>
 </tr>
 
 <tr>
 <td>name</td>
-<td>VARCHAR</td>
+<td>VARCHAR(100)</td>
 <td>Customer Name</td>
 </tr>
 
 <tr>
 <td>account_no</td>
-<td>VARCHAR</td>
-<td>Unique Account Number</td>
+<td>VARCHAR(20)</td>
+<td>Unique Account Number (UNIQUE)</td>
 </tr>
 
 <tr>
 <td>password</td>
-<td>VARCHAR</td>
+<td>VARCHAR(255)</td>
 <td>Hashed Password</td>
 </tr>
 
 <tr>
 <td>role</td>
-<td>VARCHAR</td>
-<td>User Role</td>
+<td>ENUM('customer','admin')</td>
+<td>User Security Role</td>
 </tr>
 
 <tr>
 <td>last_location</td>
-<td>VARCHAR</td>
+<td>VARCHAR(50)</td>
 <td>Last Transaction Location</td>
+</tr>
+
+<tr>
+<td>created_at</td>
+<td>TIMESTAMP</td>
+<td>Account Creation Timestamp</td>
 </tr>
 
 </table>
@@ -1012,31 +970,31 @@ Users and Transactions.
 <tr>
 <td>id</td>
 <td>INT</td>
-<td>Primary Key</td>
+<td>Primary Key (AUTO_INCREMENT)</td>
 </tr>
 
 <tr>
 <td>user_id</td>
 <td>INT</td>
-<td>Foreign Key</td>
+<td>Foreign Key (References users.id)</td>
 </tr>
 
 <tr>
 <td>amount</td>
-<td>DECIMAL</td>
+<td>DECIMAL(10,2)</td>
 <td>Transaction Amount</td>
 </tr>
 
 <tr>
 <td>location</td>
-<td>VARCHAR</td>
+<td>VARCHAR(50)</td>
 <td>Transaction Location</td>
 </tr>
 
 <tr>
 <td>is_fraud</td>
-<td>TINYINT</td>
-<td>Fraud Status</td>
+<td>INT</td>
+<td>Fraud Status (0 = Safe, 1 = Fraud)</td>
 </tr>
 
 <tr>
@@ -1047,11 +1005,101 @@ Users and Transactions.
 
 </table>
 
-</section>
+<br><br>
 
-<!-- =====================
-     ER DIAGRAM
-===================== -->
+<h3>Fraud Logs Table</h3>
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>id</td>
+<td>INT</td>
+<td>Primary Key (AUTO_INCREMENT)</td>
+</tr>
+
+<tr>
+<td>transaction_id</td>
+<td>INT</td>
+<td>Foreign Key (References transactions.id)</td>
+</tr>
+
+<tr>
+<td>fraud_reason</td>
+<td>VARCHAR(255)</td>
+<td>Reason why transaction was flagged</td>
+</tr>
+
+<tr>
+<td>detected_time</td>
+<td>TIMESTAMP</td>
+<td>Log Entry Timestamp</td>
+</tr>
+
+</table>
+
+<br><br>
+
+<h3>Transaction History Table</h3>
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>id</td>
+<td>INT</td>
+<td>Primary Key (AUTO_INCREMENT)</td>
+</tr>
+
+<tr>
+<td>transaction_id</td>
+<td>INT</td>
+<td>Foreign Key Reference ID</td>
+</tr>
+
+<tr>
+<td>user_id</td>
+<td>INT</td>
+<td>Foreign Key Reference ID</td>
+</tr>
+
+<tr>
+<td>amount</td>
+<td>DECIMAL(10,2)</td>
+<td>Archived Transaction Amount</td>
+</tr>
+
+<tr>
+<td>location</td>
+<td>VARCHAR(100)</td>
+<td>Archived Transaction Location</td>
+</tr>
+
+<tr>
+<td>status</td>
+<td>VARCHAR(20)</td>
+<td>Final Transaction Status Flag</td>
+</tr>
+
+<tr>
+<td>created_at</td>
+<td>TIMESTAMP</td>
+<td>Archival Process Timestamp</td>
+</tr>
+
+</table>
+
+</section>
 
 <section class="section">
 
@@ -1093,10 +1141,6 @@ foreign key.
 
 </section>
 
-<!-- =====================
-     DATABASE TRIGGER
-===================== -->
-
 <section class="section">
 
 <h2>⚙️ Database Trigger</h2>
@@ -1111,7 +1155,7 @@ location whenever a new transaction is inserted.
 
 <br>
 
-<<h3>Trigger Implementation</h3>
+<h3>Trigger Implementation</h3>
 
 <div class="code-block">
 <pre>
@@ -1145,10 +1189,6 @@ application logic.
 </p>
 
 </section>
-
-<!-- =====================
-     ADMIN DASHBOARD
-===================== -->
 
 <section class="section">
 
@@ -1208,10 +1248,6 @@ Displays percentage of fraudulent transactions.
 </div>
 
 </section>
-
-<!-- =====================
-     SECURITY FEATURES
-===================== -->
 
 <section id="security" class="section">
 
@@ -1300,10 +1336,6 @@ data consistency during transaction processing.
 </div>
 
 </section>
-<!-- =====================
-     TECHNOLOGY STACK
-===================== -->
-
 <section class="section">
 
 <h2>💻 Technology Stack</h2>
@@ -1346,10 +1378,6 @@ GitHub
 
 </section>
 
-<!-- =====================
-     DBMS CONCEPTS
-===================== -->
-
 <section class="section">
 
 <h2>📚 DBMS Concepts Implemented</h2>
@@ -1373,51 +1401,47 @@ practical implementation.
 
 <tr>
 <td>Primary Key</td>
-<td>Unique identification of records using id field.</td>
+<td>Unique identification of records using id field in all tables.</td>
 </tr>
 
 <tr>
 <td>Foreign Key</td>
-<td>Transactions linked to users through user_id.</td>
+<td>Transactions, Fraud Logs, and History linked back to core parent tables using constraints.</td>
 </tr>
 
 <tr>
 <td>Joins</td>
-<td>Used in Admin Dashboard to display combined information.</td>
+<td>Used in Admin Dashboard to combine transactional data with user accounts profiles.</td>
 </tr>
 
 <tr>
 <td>Aggregate Functions</td>
-<td>COUNT(), SUM() used for analytics.</td>
+<td>COUNT(), SUM() used for compiling interactive dashboard statistics.</td>
 </tr>
 
 <tr>
 <td>Transactions</td>
-<td>Commit and Rollback operations.</td>
+<td>Commit and Rollback transactional blocks tracking failure handling boundaries.</td>
 </tr>
 
 <tr>
 <td>Triggers</td>
-<td>Automatic location update after transaction insertion.</td>
+<td>Automatic location update in users table after transaction logging writes.</td>
 </tr>
 
 <tr>
 <td>Authentication</td>
-<td>User login verification and role management.</td>
+<td>User login verification, password hashing patterns, and role management routing.</td>
 </tr>
 
 <tr>
 <td>Session Management</td>
-<td>Access control and user session handling.</td>
+<td>Stateful dashboard isolation, secure session allocation, and logout clear controls.</td>
 </tr>
 
 </table>
 
 </section>
-
-<!-- =====================
-     SCREENSHOTS
-===================== -->
 
 <section class="section">
 
@@ -1472,10 +1496,6 @@ practical implementation.
 <img src="images/8Admin.png" alt="Admin Dashboard" width="100%">
 <img src="images/9Admin1.png" alt="Admin Dashboard" width="100%">
 </section>
-
-<!-- =====================
-     FUTURE ENHANCEMENTS
-===================== -->
 
 <section id="future" class="section">
 
@@ -1565,10 +1585,6 @@ to each transaction.
 
 </section>
 
-<!-- =====================
-     CONCLUSION
-===================== -->
-
 <section class="section">
 
 <h2>✅ Conclusion</h2>
@@ -1607,10 +1623,6 @@ fraud prevention.
 
 </section>
 
-<!-- =====================
-     TEAM MEMBERS
-===================== -->
-
 <section class="section">
 
 <h2>👨‍💻 Team Members</h2>
@@ -1645,10 +1657,6 @@ VAISHNAVI KAVATAGI
 
 </section>
 
-<!-- =====================
-     REFERENCES
-===================== -->
-
 <section class="section">
 
 <h2>📖 References</h2>
@@ -1674,10 +1682,6 @@ VAISHNAVI KAVATAGI
 </section>
 
 </div>
-
-<!-- =====================
-     FOOTER
-===================== -->
 
 <footer>
 

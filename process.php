@@ -1,10 +1,8 @@
-<<<<<<< HEAD
 <?php
 include 'db.php';
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Secure Guard: Ensure user is logged in
     if (!isset($_SESSION['user_id'])) {
         die("Unauthorized access.");
     }
@@ -14,17 +12,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $location = trim($_POST['location']);
     $user_id = $_SESSION['user_id'];
 
-    // --- FRAUD DETECTION ENGINE (RULE-BASED) ---
+    // --- FRAUD DETECTION ENGINE ---
     $is_fraud = 0;
     $reason = "Transaction Verified";
 
-    // Rule 1: High Amount Threshold Check
     if ($amount > 20000) {
         $is_fraud = 1;
         $reason = "High Amount Alert (> ₹20,000)";
     }
 
-    // Fetch the user's last recorded location to check Rule 2
     $loc_query = "SELECT last_location FROM users WHERE id = ?";
     $stmt = $conn->prepare($loc_query);
     $stmt->bind_param("i", $user_id);
@@ -33,215 +29,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_data = $res->fetch_assoc();
     $last_location = $user_data['last_location'] ?? '';
 
-    // Rule 2: Geolocation Mismatch Check
-    // If they have a history AND the new city doesn't match the old city -> FRAUD!
     if (!empty($last_location) && strtolower($last_location) !== strtolower($location)) {
         $is_fraud = 1;
-        $reason = "Location Mismatch (Last seen in " . htmlspecialchars($last_location) . ". Attempted in " . htmlspecialchars($location) . ")";
+        $reason = "Location Mismatch (Last seen in " . htmlspecialchars($last_location) . ")";
     }
 
     // --- DATABASE LAYER: ACID TRANSACTION BLOCK ---
     $conn->begin_transaction();
 
     try {
-        // 1. Insert the transaction into the log
-       $ins_query = "INSERT INTO transactions (user_id, amount, location, is_fraud)
-              VALUES (?, ?, ?, ?)";
-
-$ins_stmt = $conn->prepare($ins_query);
-
-$ins_stmt->bind_param(
-    "idsi",
-    $user_id,
-    $amount,
-    $location,
-    $is_fraud
-);
-
-$ins_stmt->execute();
-
-/* ==================================
-   GET LAST INSERTED TRANSACTION ID
-================================== */
-
-$transaction_id = $conn->insert_id;
-
-
-/* ==================================
-   INSERT INTO FRAUD_LOGS TABLE
-================================== */
-
-if ($is_fraud == 1) {
-
-    $fraud_query = "
-        INSERT INTO fraud_logs
-        (transaction_id, fraud_reason)
-        VALUES (?, ?)
-    ";
-
-    $fraud_stmt = $conn->prepare($fraud_query);
-
-    $fraud_stmt->bind_param(
-        "is",
-        $transaction_id,
-        $reason
-    );
-
-    $fraud_stmt->execute();
-}
-
-
-/* ==================================
-   INSERT INTO TRANSACTION_HISTORY
-================================== */
-
-$status = ($is_fraud == 1)
-            ? 'Fraud'
-            : 'Safe';
-
-$history_query = "
-    INSERT INTO transaction_history
-    (
-        transaction_id,
-        user_id,
-        amount,
-        location,
-        status
-    )
-    VALUES
-    (
-        ?, ?, ?, ?, ?
-    )
-";
-
-$history_stmt = $conn->prepare($history_query);
-
-$history_stmt->bind_param(
-    "iidss",
-    $transaction_id,
-    $user_id,
-    $amount,
-    $location,
-    $status
-);
-
-$history_stmt->execute();
-
-        // 2. EXPLICITLY update the user's last_location so the next transaction knows where they are!
-        $upd_query = "UPDATE users SET last_location = ? WHERE id = ?";
-        $upd_stmt = $conn->prepare($upd_query);
-        $upd_stmt->bind_param("si", $location, $user_id);
-        $upd_stmt->execute();
-
-        // Commit both queries safely
-        $conn->commit();
-    } catch (Exception $e) {
-        $conn->rollback();
-        die("Critical Database Error. Transaction rolled back: " . $e->getMessage());
-    }
-
-    // --- PRESENTATION LAYER: DISPLAY RESULTS ---
-    ?>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <title>Transaction Result</title>
-        <style>
-            body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f4f8; margin: 0; }
-            .result-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); text-align: center; max-width: 400px; width: 100%; }
-            .status-icon { font-size: 50px; margin-bottom: 15px; }
-            .btn { display: inline-block; background: #1e3a8a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 20px; }
-            .btn:hover { background: #1d4ed8; }
-        </style>
-    </head>
-    <body>
-        <div class="result-card">
-            <?php if ($is_fraud == 1): ?>
-                <div class="status-icon">🚩</div>
-                <h2 style="color: #ef4444; margin-top: 0;">Fraud Detected!</h2>
-                <p style="color: #991b1b; background: #fee2e2; padding: 12px; border-radius: 6px; font-weight: 500;">
-                    <strong>Reason:</strong> <?php echo $reason; ?>
-                </p>
-            <?php else: ?>
-                <div class="status-icon">✅</div>
-                <h2 style="color: #22c55e; margin-top: 0;">Transaction Secure</h2>
-                <p style="color: #15803d; background: #dcfce7; padding: 12px; border-radius: 6px; font-weight: 500;">
-                    Your payment request was processed successfully.
-                </p>
-            <?php endif; ?>
-            
-            <a href="index.php" class="btn">Go Back</a>
-        </div>
-    </body>
-    </html>
-    <?php
-}
-=======
-<?php
-include 'db.php';
-session_start();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Secure Guard: Ensure user is logged in
-    if (!isset($_SESSION['user_id'])) {
-        die("Unauthorized access.");
-    }
-
-    $account_no = trim($_POST['account_no']);
-    $amount = floatval($_POST['amount']);
-    $location = trim($_POST['location']);
-    $user_id = $_SESSION['user_id'];
-
-    // --- FRAUD DETECTION ENGINE (RULE-BASED) ---
-    $is_fraud = 0;
-    $reason = "Transaction Verified";
-
-    // Rule 1: High Amount Threshold Check
-    if ($amount > 20000) {
-        $is_fraud = 1;
-        $reason = "High Amount Alert (> ₹20,000)";
-    }
-
-    // Fetch the user's last recorded location to check Rule 2
-    $loc_query = "SELECT last_location FROM users WHERE id = ?";
-    $stmt = $conn->prepare($loc_query);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    $user_data = $res->fetch_assoc();
-    $last_location = $user_data['last_location'] ?? '';
-
-    // Rule 2: Geolocation Mismatch Check
-    // If they have a history AND the new city doesn't match the old city -> FRAUD!
-    if (!empty($last_location) && strtolower($last_location) !== strtolower($location)) {
-        $is_fraud = 1;
-        $reason = "Location Mismatch (Last seen in " . htmlspecialchars($last_location) . ". Attempted in " . htmlspecialchars($location) . ")";
-    }
-
-    // --- DATABASE LAYER: ACID TRANSACTION BLOCK ---
-    $conn->begin_transaction();
-
-    try {
-        // 1. Insert the transaction into the log
+        // 1. Insert into transactions
         $ins_query = "INSERT INTO transactions (user_id, amount, location, is_fraud) VALUES (?, ?, ?, ?)";
         $ins_stmt = $conn->prepare($ins_query);
         $ins_stmt->bind_param("idsi", $user_id, $amount, $location, $is_fraud);
         $ins_stmt->execute();
 
-        // 2. EXPLICITLY update the user's last_location so the next transaction knows where they are!
-        $upd_query = "UPDATE users SET last_location = ? WHERE id = ?";
-        $upd_stmt = $conn->prepare($upd_query);
-        $upd_stmt->bind_param("si", $location, $user_id);
-        $upd_stmt->execute();
+        $transaction_id = $conn->insert_id;
 
-        // Commit both queries safely
+        // 2. Insert into fraud_logs if applicable
+        if ($is_fraud == 1) {
+            $fraud_query = "INSERT INTO fraud_logs (transaction_id, fraud_reason) VALUES (?, ?)";
+            $fraud_stmt = $conn->prepare($fraud_query);
+            $fraud_stmt->bind_param("is", $transaction_id, $reason);
+            $fraud_stmt->execute();
+        }
+
+        // 3. Insert into transaction_history
+        $status = ($is_fraud == 1) ? 'Fraud' : 'Safe';
+        $history_query = "INSERT INTO transaction_history (transaction_id, user_id, amount, location, status) VALUES (?, ?, ?, ?, ?)";
+        $history_stmt = $conn->prepare($history_query);
+        $history_stmt->bind_param("iidss", $transaction_id, $user_id, $amount, $location, $status);
+        $history_stmt->execute();
+
+        // NOTE: The user's last_location is updated AUTOMATICALLY via the DB trigger here!
+        
         $conn->commit();
     } catch (Exception $e) {
         $conn->rollback();
         die("Critical Database Error. Transaction rolled back: " . $e->getMessage());
     }
 
-    // --- PRESENTATION LAYER: DISPLAY RESULTS ---
+    // --- PRESENTATION LAYER ---
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -270,12 +98,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     Your payment request was processed successfully.
                 </p>
             <?php endif; ?>
-            
             <a href="index.php" class="btn">Go Back</a>
         </div>
     </body>
     </html>
     <?php
 }
->>>>>>> 387c73c66cf8311e8491754526278b8dbc3fad42
 ?>
